@@ -1,4 +1,3 @@
-cat kubernetes/01-Introducción/namespace1_ejm.json
 {
   "apiVersion": "v1",
   "kind": "Namespace",
