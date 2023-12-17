@@ -4,7 +4,7 @@ metadata:
   name: memory-demo2
 spec:
   containers:
-  - image: repositoriocurso/stress2
+  - image: repocurso/stress2
     imagePullPolicy: Always
     name: application-container
     resources:
