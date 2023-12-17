@@ -12,4 +12,3 @@ spec:
         cpu: "1"
       requests:
         cpu: 500m
-
