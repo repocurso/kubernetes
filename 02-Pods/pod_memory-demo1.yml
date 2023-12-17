@@ -4,7 +4,7 @@ metadata:
   name: memory-demo1
 spec:
   containers:
-  - image: polinux/stress
+  - image: repocurso/stress2
     imagePullPolicy: Always
     name: application-container
     resources:
