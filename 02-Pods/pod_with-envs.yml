@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-envs
+spec:
+  containers:
+  - name: message
+    image: repocurso/erase-una-vez-1:0.2.1
+    env:
+    - name: CHARACTER
+      value: "un circo."
+    - name: SLEEP_TIME
+      value: "4s"

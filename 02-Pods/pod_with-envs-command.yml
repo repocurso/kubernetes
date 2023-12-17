@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: print-message
+spec:
+  containers:
+  - name: env-print-demo
+    image: repocurso/bash
+    env:
+    - name: TEXT
+      value: "Curso"
+    - name: COURSE
+      value: "Kubernetes"
+    - name: MESSAGE
+      value: "$(TEXT) $(COURSE)"
+    command: ["echo"]
+    args: ["$(MESSAGE)"]
+  restartPolicy: Never

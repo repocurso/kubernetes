@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest
+        image: repocurso/nginx:latest
         ports:
         - name: nginx-dep-port
           containerPort: 80
