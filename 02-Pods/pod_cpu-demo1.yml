@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-demo1
+spec:
+  containers:
+  - image: repocurso/stress1
+    imagePullPolicy: Always
+    name: application-container
+    resources:
+      limits:
+        cpu: "1"
+      requests:
+        cpu: 500m
