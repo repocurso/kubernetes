@@ -11,3 +11,4 @@ spec:
         cpu: "100"
       requests:
         cpu: "100"
+
