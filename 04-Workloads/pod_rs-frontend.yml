@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend-replicaset-pod
+  labels:
+    tier: frontend
+spec:
+  containers:
+  - name: hello-container
+    image: repocurso/hello-app:2.0
