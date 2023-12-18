@@ -15,6 +15,6 @@ spec:
         tier: frontend
     spec:
       containers:
-      - name: php-redis
+      - name: php-redis-container
         image: repocurso/gb-frontend-amd64:v5
 

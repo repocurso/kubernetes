@@ -13,7 +13,7 @@ spec:
         app: nginx-rc
     spec:
       containers:
-      - name: nginx-container-rc
+      - name: nginx-rc-container
         image: repocurso/nginx:latest
         ports:
         - containerPort: 80
