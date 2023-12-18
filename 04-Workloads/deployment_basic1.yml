@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-cache1
+  labels:
+    app: app-cache1
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: app-cache1
+  template:
+    metadata:
+      labels:
+        app: app-cache1
+    spec:
+      containers:
+       - name: memcached-container
+         image: repocurso/memcached:1.6.8
