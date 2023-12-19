@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy-strategies1
+  labels:
+    app: nginx-app-strategies1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-app-strategies1
+  strategy: 
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nginx-app-strategies1
+    spec:
+      containers:
+      - image: repocurso/nginx:v1
+        name: nginx
