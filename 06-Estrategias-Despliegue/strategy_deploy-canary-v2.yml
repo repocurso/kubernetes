@@ -19,6 +19,6 @@ spec:
     spec: 
       containers:
       - name: contenedor
-        image: nginx:latest
+        image: repocurso/nginx:latest
         ports:
         - containerPort: 80
