@@ -1,0 +1,15 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: business-app2
+spec: 
+  volumes: 
+  - name: logs-volume 
+    hostPath:
+      path: /tmp/data1
+  containers: 
+  - image: repocurso/nginx 
+    name: nginx 
+    volumeMounts: 
+    - mountPath: /var/logs 
+      name: logs-volume
