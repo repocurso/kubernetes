@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simpleservice-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simpleservice
+  template:
+    metadata:
+      labels:
+        app: simpleservice
+    spec:
+      containers:
+      - name: simpleservice-container
+        image: repocurso/simpleservice:0.5.0
+        ports:
+        - containerPort: 9876
