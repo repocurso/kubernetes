@@ -15,5 +15,7 @@ ssh $nodes 'bash -s' << EOT
 sudo apt install -y nfs-common
 sudo mkdir -p /mnt/nfs-general
 sudo mount 192.168.100.10:/mnt/nfs-general /mnt/nfs-general
+sudo sed -i '/\/mnt\/nfs-general/d' /etc/fstab
+sudo sed -i '\$a 192.168.100.10:/mnt/nfs-general    /mnt/nfs-general   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0' /etc/fstab
 EOT
 done
