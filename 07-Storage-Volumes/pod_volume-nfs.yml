@@ -1,0 +1,23 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: mysql-nfs
+spec: 
+  volumes: 
+  - name: nfs-volume 
+    nfs:
+      server: 192.168.100.10
+      path: /mnt/nfs-general/mysql
+  securityContext:
+    runAsUser: 999      
+  containers: 
+  - name: mysql 
+    image: repocurso/mysql:5.7
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: password
+    ports:
+    - containerPort: 3306 
+    volumeMounts: 
+    - name: nfs-volume
+      mountPath: /var/lib/mysql/ 
