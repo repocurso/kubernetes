@@ -1,0 +1,31 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata: 
+  name: mysql-deploy-pvc
+spec: 
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql-deploy-pvc
+  template:
+    metadata:
+      labels:
+        app: mysql-deploy-pvc
+    spec:
+      volumes:
+      - name: data-storage
+        persistentVolumeClaim:
+          claimName: data-pvc2
+      securityContext:
+        runAsUser: 999    
+      containers:
+      - name: mysql
+        image: repocurso/mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: data-storage
+          mountPath: /var/lib/mysql/

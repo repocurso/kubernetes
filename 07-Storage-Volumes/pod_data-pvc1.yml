@@ -1,0 +1,15 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: storage-app 
+spec: 
+  volumes: 
+  - name: data-storage 
+    persistentVolumeClaim:
+      claimName: data-pvc1
+  containers: 
+  - image: repocurso/nginx 
+    name: nginx 
+    volumeMounts: 
+    - mountPath: /usr/share/nginx/html 
+      name: data-storage
