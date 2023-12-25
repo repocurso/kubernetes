@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2
+  namespace: proyecto1
+  labels:
+    project: proyecto1
+    app: app-pod2
+spec:
+  containers:
+  - name: contenedor
+    image: repocurso/nginx:latest
+    ports:
+    - containerPort: 80

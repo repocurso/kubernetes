@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: server
+  namespace: proyecto1
+  labels:
+    project: proyecto1
+    app: app-conexion
+    type: server
+spec:
+  containers:
+  - name: server
+    image: repocurso/erase-una-vez-2:0.1.0
+    command:
+    - server
+    env:
+    - name: CHARACTER
+      value: "un libro de Kubernetes."
+    ports:
+    - name: http-server
+      containerPort: 8000
