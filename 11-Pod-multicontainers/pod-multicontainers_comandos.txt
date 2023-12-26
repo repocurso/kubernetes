@@ -1,0 +1,82 @@
+------------------------------------------------
+ Usos de Sidecar Pattern
+------------------------------------------------
+
+$ cat pod_sidecar-pattern.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-pattern
+spec:
+  volumes:
+    - name: nginx-logs
+      emptyDir: {}
+  containers:
+    - name: application-container
+      image: nginx
+      volumeMounts:
+        - name: nginx-logs
+          mountPath: /var/log/nginx
+    - name: sidecar-container
+      image: busybox
+      command: ["sh","-c","while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 20; done"]
+      volumeMounts:
+        - name: nginx-logs
+          mountPath: /var/log/nginx
+
+$ kubectl apply -f pod_sidecar-pattern.yml
+$ kubectl get pods sidecar-pattern
+$ kubectl describe pods sidecar-pattern
+
+$ kubectl logs sidecar-pattern -c sidecar-container --follow
+
+------------------------------------------------
+ Usos de Init Container Pattern
+------------------------------------------------
+
+$ cat pod_init-container-pattern.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-container-pattern
+  labels:
+    app.kubernetes.io/name: app-init-container-pattern
+spec:
+  containers:
+  - name: application-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo ¡La aplicación se está ejecutando! && sleep 3600']
+  initContainers:
+  - name: init-container-service-app
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup service-app.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo esperando a service-app; sleep 2; done"]
+
+$ kubectl apply -f pod_init-container-pattern.yml
+$ kubectl get pods init-container-pattern
+$ kubectl describe pod init-container-pattern
+
+$ kubectl logs init-container-pattern --container application-container
+$ kubectl logs init-container-pattern --container init-container-service-app
+
+--
+
+$ cat service_init-container-pattern.yml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-app
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376
+
+$ kubectl apply -f service_init-container-pattern.yml
+$ kubectl get pods init-container-pattern
+
+$ kubectl logs init-container-pattern --container application-container --follow
+$ kubectl logs init-container-pattern --container init-container-service-app --follow
+

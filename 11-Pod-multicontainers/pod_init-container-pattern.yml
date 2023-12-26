@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-container-pattern
+  labels:
+    app.kubernetes.io/name: app-init-container-pattern
+spec:
+  containers:
+  - name: application-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo ¡La aplicación se está ejecutando! && sleep 3600']
+  initContainers:
+  - name: init-container-service-app
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup service-app.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo esperando a service-app; sleep 2; done"]
