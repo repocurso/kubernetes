@@ -1,5 +1,5 @@
 ------------------------------------------------
-Usuarios y Grupos - OS
+ Usuarios y Grupos - OS
 ------------------------------------------------
 
 $ sudo addgroup -gid 1100 developers
@@ -7,10 +7,10 @@ $ sudo useradd -u 1014 -g developers -s /bin/bash -m user1
 $ sudo passwd user1
 
 ------------------------------------------------
-Usuarios y Grupos - Private Key y CSR
+ Usuarios y Grupos - Private Key y CSR
 ------------------------------------------------
 
-$ mkdir ~/cert && cd ~/cert 
+$ mkdir -p ~/cert && cd ~/cert:
 
 -- Private KEY
 $ openssl genrsa -out user1.key 2048
@@ -21,7 +21,7 @@ $ openssl req -new -key user1.key -out user1.csr -subj "/CN=user1/O=developers"
 $ chmod 644 *; ls -l | awk '{print $1, $9}' 
 
 ------------------------------------------------
-Usuarios y Grupos - CRT
+ Usuarios y Grupos - CRT
 ------------------------------------------------
 
 $ sudo cp /etc/kubernetes/pki/ca.* ~/cert/
@@ -30,89 +30,72 @@ $ openssl x509 -req -in user1.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out 
 $ ls
 
 ------------------------------------------------
-Usuarios y Grupos - OS
+ Usuarios y Grupos - OS
 ------------------------------------------------
 
 $ sudo mkdir /home/user1/cert
-
 $ sudo cp user1.crt user1.key /home/user1/cert/
-
 $ sudo chown -R --reference=/home/user1/ /home/user1/cert/
-
 $ ls -l /home/user1/cert | awk '{print $1, $3, $4, $9}' 
 
 ------------------------------------------------
-Configuración de kubeconfig - Usuarios
+ Configuración de kubeconfig - Usuarios
 ------------------------------------------------
 
 $ kubectl config set-credentials user1 --client-certificate=/home/user1/cert/user1.crt --client-key=/home/user1/cert/user1.key
-
 $ kubectl config get-users
-
 $ kubectl config view
 
 ------------------------------------------------
-Configuración de kubeconfig - Context
+ Configuración de kubeconfig - Context
 ------------------------------------------------
 
 $ kubectl config set-context developers-context --cluster=kubernetes --user=user1
-
 $ kubectl config get-contexts
-
 $ kubectl config view
 
 --
 
 $ kubectl config current-context 
-
 $ kubectl config use-context developers-context 
-
 $ kubectl config current-context 
-
 $ kubectl config get-contexts
 
 ------------------------------------------------
-Configuración de kubeconfig
+ Configuración de kubeconfig
 ------------------------------------------------
 
 --- Terminal del usuario
 $ mkdir $HOME/.kube
-
 $ kubectl config view
 
 --- Terminal del administrador
 $ sudo cp ~/.kube/config /home/user1/.kube/config
-
 $ sudo chown --reference=/home/user1/ /home/user1/.kube/config
 $ export KUBECONFIG="$HOME/.kube/config"
-
 $ echo $KUBECONFIG 
 
 --- Terminal del usuario
 $ export KUBECONFIG="$HOME/.kube/config"
-
 $ echo $KUBECONFIG 
- /home/user1/.kube/config
-
 $ kubectl version
-
 $ kubectl config view
 
 ------------------------------------------------
-Acceso a los objetos de Kubernetes
+ Acceso a los objetos de Kubernetes
 ------------------------------------------------
 
 --- Terminal del usuario
 $ kubectl get pods --namespace proyecto1
 
 ------------------------------------------------
-Comprobación del acceso a la API
+ Comprobación del acceso a la API
 ------------------------------------------------
 
 $ kubectl config current-context
 $ kubectl auth can-i list pods
 
-$ kubectl config use-context developers-context 
+$ kubectl config use-context kubernetes-admin@kubernetes 
 $ kubectl auth can-i list pods
 
 --
@@ -123,7 +106,7 @@ $ kubectl auth can-i list pods --context developers-context
 $ kubectl auth can-i list pods --namespace proyecto2 --as system:serviceaccount:proyecto1:api-access1
 
 ------------------------------------------------
-Creación de un Role
+ Creación de un Role
 ------------------------------------------------
 
 $ kubectl create role pod-reader1 --verb=watch,list,get --resource=pods --namespace=proyecto1
@@ -143,13 +126,14 @@ rules:
   verbs: ["watch","list","get"]
 
 $ kubectl apply -f role_pod-reader2.yml 
+$ kubectl get roles --namespace=proyecto1
 
 ------------------------------------------------
-Creación de un RoleBinding
+ Creación de un RoleBinding
 ------------------------------------------------
 
 $ kubectl create rolebinding read-pods1 -n proyecto1 --user=user1 --role=pod-reader1
-$ kubectl get rolebinding read-pods1 
+$ kubectl get rolebinding read-pods1 -n proyecto1 
 
 --
 
@@ -169,11 +153,11 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 
 $ kubectl apply -f rb_read-pods2.yml 
-$ kubectl get rolebinding read-pods1 read-pods2
+$ kubectl get rolebinding read-pods1 read-pods2 -n proyecto1
 
 
 ------------------------------------------------
-Ejecución de operaciones con el usuario
+ Ejecución de operaciones con el usuario
 ------------------------------------------------
 
 $ kubectl auth can-i list pods --namespace proyecto1 --context developers-context 
@@ -182,7 +166,7 @@ $ kubectl get pods -n proyecto1 --context developers-context
 $ kubectl get pods -n proyecto2 --context developers-context
 
 ------------------------------------------------
-Service Account
+ Service Account
 ------------------------------------------------
 
 $ kubectl get serviceaccounts --namespace kube-public
@@ -196,23 +180,22 @@ Creación de un Service Account
 
 $ kubectl create serviceaccount api-access1 -n proyecto1
 
-$ cat sc_api-access2.yaml
+$ cat sa_api-access2.yaml
 apiVersion: v1 
 kind: ServiceAccount 
 metadata: 
   name: api-access2 
   namespace: proyecto1
 
-$ kubectl apply -f sc_api-access2.yaml
+$ kubectl apply -f sa_api-access2.yaml
 
 $ kubectl get serviceaccounts -n proyecto1
 
 ------------------------------------------------
-Creación de un ClusterRole
+ Creación de un ClusterRole
 ------------------------------------------------
 
 $ kubectl create clusterrole api-clusterrole1 --verb=watch,list,get --resource=pods
-
 $ kubectl get clusterrole api-clusterrole1 
 
 --
@@ -233,12 +216,12 @@ $ kubectl apply -f cr_api-clusterrole2.yml
 $ kubectl describe clusterrole api-clusterrole1 api-clusterrole2 
 
 ------------------------------------------------
-Creación de un Aggregated ClusterRole
+ Creación de un Aggregated ClusterRole
 ------------------------------------------------
 
 $ kubectl get clusterrole api-clusterrole2 -o yaml
 
-$ cat cr2-agg1.yml 
+$ cat cr_api-clusterrole2-agg1.yml 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -250,12 +233,12 @@ rules:
   resources: ["pods"]
   verbs: ["get", "list", "watch"]
 
-$ kubectl apply -f cr2-agg1.yml
+$ kubectl apply -f cr_api-clusterrole2-agg1.yml
 $ kubectl describe clusterrole api-clusterrole2 
 
 --
 
-$ cat cr2-agg2.yml 
+$ cat cr_api-clusterrole2-agg2.yml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -267,15 +250,14 @@ rules:
     resources: ["pods/exec"]
     verbs: ["create"]
 
-$ kubectl apply -f cr2-agg2.yml
+$ kubectl apply -f cr_api-clusterrole2-agg2.yml
 $ kubectl describe clusterrole api-clusterrole2 
 
 ------------------------------------------------
-Creación de un ClusterRoleBinding
+ Creación de un ClusterRoleBinding
 ------------------------------------------------
 
 $ kubectl create clusterrolebinding api-clusterrolebinding1 --serviceaccount=proyecto1:api-access1 --clusterrole=api-clusterrole1
-
 $ kubectl get clusterrolebinding api-clusterrolebinding1 
 
 --
@@ -299,13 +281,13 @@ $ kubectl apply -f crb_api-clusterrolebinding2.yml
 $ kubectl get clusterrolebinding api-clusterrolebinding1 api-clusterrolebinding2
 
 ------------------------------------------------
-Uso de un ServiceAccount en un Pod
+ Uso de un ServiceAccount en un Pod
 ------------------------------------------------
 
-$ kubectl run pod-operator --image=nginx:latest --restart=Never --port=80 -n proyecto1 --serviceaccount=api-access1
-$ kubectl run pod-operator --image=nginx:latest --restart=Never --port=80 -n proyecto1 --overrides='{"spec":{"serviceAccountName":"api-access1"}}'
+$ kubectl run pod-operator --image=repocurso/nginx:latest --restart=Never --port=80 -n proyecto1 --serviceaccount=api-access1
+$ kubectl run pod-operator --image=repocurso/nginx:latest --restart=Never --port=80 -n proyecto1 --overrides='{"spec":{"serviceAccountName":"api-access1"}}'
 
-$ kubectl run pod-test --image=nginx:latest --restart=Never --port=80 -n proyecto2
+$ kubectl run pod-test --image=repocurso/nginx:latest --restart=Never --port=80 -n proyecto2
 
 -- Ejemplo de archivo YAML
 apiVersion: v1 
@@ -334,18 +316,14 @@ spec:
     - containerPort: 80 
 
 ------------------------------------------------
-Verificación de los permisos
+ Verificación de los permisos
 ------------------------------------------------
 
 $ kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}'
 
-$ kubectl get secret $(kubectl get serviceaccount api-access1 -n proyecto1 -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' -n proyecto1 | base64 --decode
+$ TOKEN=$(kubectl get secret $(kubectl get serviceaccount api-access1 -n proyecto1 -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' -n proyecto1 | base64 --decode)
 
-$ kubectl exec pod-operator -n proyecto1 -- curl https://192.168.100.10:6443/api/v1/namespaces/proyecto2/pods --header "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6In..." --insecure
+$ kubectl exec pod-operator -n proyecto1 -- curl https://192.168.100.10:6443/api/v1/namespaces/proyecto2/pods --header "Authorization: Bearer $TOKEN" --insecure
 
-$ kubectl exec pod-operator -n proyecto1 -- curl -X DELETE https://192.168.100.10:6443/api/v1/namespaces/proyecto2/pods/pod-test --header "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6In..." --insecure
-
-
-
-
+$ kubectl exec pod-operator -n proyecto1 -- curl -X DELETE https://192.168.100.10:6443/api/v1/namespaces/proyecto2/pods/pod-test --header "Authorization: Bearer $TOKEN" --insecure
 
