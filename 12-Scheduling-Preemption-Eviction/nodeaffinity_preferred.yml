@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-affinity2-preferred
+spec:
+  selector:
+    matchLabels:
+      app: app-node-affinity2-preferred
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: app-node-affinity2-preferred
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: nodegroup-type
+                operator: In
+                values:
+                - microservicios
+      containers:
+        - name: application-container
+          image: repocurso/nginx:latest

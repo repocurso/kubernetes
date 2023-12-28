@@ -1,0 +1,66 @@
+------------------------------------------------
+ Node Affinity - Required
+------------------------------------------------
+
+$ cat nodeaffinity_required.yml 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-affinity1-required
+spec:
+  affinity:
+    nodeAffinity:  
+      requiredDuringSchedulingIgnoredDuringExecution: 
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: nodegroup-type
+            operator: NotIn
+            values:
+            - microservicios
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest
+
+$ kubectl apply -f nodeaffinity_required.yml 
+
+$ kubectl get pod node-affinity1-required -o=wide
+
+------------------------------------------------
+ Node Affinity - Preferred
+------------------------------------------------
+
+$ cat nodeaffinity_preferred.yml 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-affinity2-preferred
+spec:
+  selector:
+    matchLabels:
+      app: app-node-affinity2-preferred
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: app-node-affinity2-preferred
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: nodegroup-type
+                operator: In
+                values:
+                - microservicios
+      containers:
+        - name: application-container
+          image: nginx:latest
+
+$ kubectl apply -f nodeaffinity_preferred.yml 
+
+$ kubectl get pods -o=wide -l app=app-node-affinity2-preferred
+

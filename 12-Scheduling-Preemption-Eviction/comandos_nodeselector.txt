@@ -1,0 +1,51 @@
+------------------------------------------------
+ Crear una etiqueta para aplicar NodeSelector
+------------------------------------------------
+
+$ kubectl get nodes
+
+$ kubectl label nodes node1 nodegroup-type=microservicios
+
+$ kubectl get nodes node1 --show-labels
+
+$ kubectl describe nodes node1
+
+------------------------------------------------
+ Crear el atributo NodeSelector en un Pod
+------------------------------------------------
+
+$ cat nodeselector_basic.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-selector1
+  labels:
+    app: app-node-selector
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest
+  nodeSelector:
+    nodegroup-type: microservicios
+
+$ kubectl apply -f nodeselector_basic.yml
+
+$ kubectl get pod -o=wide -l app=app-node-selector
+
+--
+
+$ kubectl run node-selector2 --image=repocurso/nginx:latest --labels=app=app-node-selector --overrides='{"spec":{"nodeSelector":{"nodegroup-type":"microservicios"}}}'
+
+$ kubectl get pod -o=wide -l app=app-node-selector
+
+------------------------------------------------
+ Eliminar una etiqueta de un Nodo
+------------------------------------------------
+
+$ kubectl get nodes node1 --show-labels
+
+$ kubectl label nodes node1 nodegroup-type-
+
+$ kubectl get nodes node1 --show-labels
+

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-with-tolerations
+  labels:
+    env: qualify
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "type"
+    operator: "Equal"
+    value: "shared"
+    effect: "NoSchedule"

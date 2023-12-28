@@ -1,0 +1,105 @@
+------------------------------------------------
+ Configuración de Taints
+-----------------------------------------------
+
+$ kubectl taint nodes node2 type=shared:NoSchedule
+
+$ kubectl get node node2 --template='{{if .spec.taints}}{{(index .spec.taints 0)}}{{else}}No taints{{end}}{{"\n"}}'
+
+------------------------------------------------
+ Eliminación de Taints
+------------------------------------------------
+
+$ kubectl taint nodes node2 type=shared:NoSchedule-
+
+$ kubectl get node node2 --template='{{if .spec.taints}}{{(index .spec.taints 0)}}{{else}}No taints{{end}}{{"\n"}}'
+
+------------------------------------------------
+ Configuración de Tolerations
+------------------------------------------------
+
+$ cat tolerations_app1-without-tolerations.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-without-tolerations
+  labels:
+    env: qualify
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx
+    imagePullPolicy: IfNotPresent
+
+$ cat tolerations_app2-with-tolerations.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-with-tolerations
+  labels:
+    env: qualify
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "type"
+    operator: "Equal"
+    value: "shared"
+    effect: "NoSchedule"
+
+$ kubectl taint nodes node2 type=shared:NoSchedule
+$ kubectl apply -f tolerations_app1-without-tolerations.yml
+$ kubectl apply -f tolerations_app2-with-tolerations.yml
+$ kubectl get pods -l env=qualify -o=wide
+
+--
+
+$ cat tolerations_app3-with-tolerationSeconds.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-with-tolerations
+  labels:
+    env: qualify
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "type"
+    operator: "Equal"
+    value: "shared"
+    effect: "NoSchedule"
+  - key: "type"
+    operator: "Equal"
+    value: "shared"
+    effect: "NoExecute"
+    tolerationSeconds: 120
+
+$ kubectl apply -f tolerations_app3-with-tolerationSeconds.yml
+
+$ kubectl get pods -l env=qualify -o=wide
+
+--
+
+$ kubectl taint nodes node2 type=shared:NoExecute
+
+$ kubectl get pods -l env=qualify -o=wide
+
+--- Repite el proceso anterior después de un tiempo
+
+$ kubectl get pods nginx-app-with-tolerations
+
+------------------------------------------------
+ Limpieza de componentes
+------------------------------------------------
+
+$ kubectl taint nodes node2 type=shared:NoSchedule-
+$ kubectl taint nodes node2 type=shared:NoExecute-
+

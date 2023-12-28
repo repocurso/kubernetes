@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-affinity1-required
+spec:
+  affinity:
+    nodeAffinity:  
+      requiredDuringSchedulingIgnoredDuringExecution: 
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: nodegroup-type
+            operator: NotIn
+            values:
+            - microservicios
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest

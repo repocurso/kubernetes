@@ -1,0 +1,105 @@
+------------------------------------------------
+ Consulta de un PriorityClass
+------------------------------------------------
+
+$ kubectl get priorityclasses
+
+$ kubectl describe priorityclasses system-node-critical
+
+$ kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{@.metadata.namespace}@{@.metadata.name}@{@.spec.priorityClassName}{"\n"}{end}' | grep 'system-node-critical'
+
+------------------------------------------------
+ Creación de pods sin PriorityClass
+------------------------------------------------
+
+$ cat priorityclass_app1-without-pc.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-without-priority-class1
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: "700m"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-without-priority-class2
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: "700m"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+
+-- Este primer comando se ejecuta para claridad del ejemplo del curso
+-- Se entiende que NO se realiza en entornos producutivos
+
+$ kubectl delete all --all --force --namespace default
+
+$ kubectl apply -f priorityclass_app1-without-pc.yml
+
+$ kubectl get pods -o=wide    
+
+------------------------------------------------
+ Creación de pods con PriorityClass
+------------------------------------------------
+
+$ cat priorityclass_app2-with-pc.yml
+
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000
+globalDefault: false
+description: "PriorityClass del curso“
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-with-priority-class
+spec:
+  priorityClassName: high-priority
+  containers:
+  - name: application-container
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: "700m"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+
+$ kubectl apply -f priorityclass_app2-with-pc.yml
+
+$ kubectl get pods -o=wide    
+
+------------------------------------------------
+ Consulta de un PriorityClass
+------------------------------------------------
+
+$ kubectl get priorityclasses
+
+$ kubectl describe priorityclasses high-priority 
+
+$ kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{@.metadata.namespace}@{@.metadata.name}@{@.spec.priorityClassName}{"\n"}{end}' | grep 'high-priority'
+

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-selector1
+  labels:
+    app: app-node-selector
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest    
+  nodeSelector:
+    nodegroup-type: microservicios

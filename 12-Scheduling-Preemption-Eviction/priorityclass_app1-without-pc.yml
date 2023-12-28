@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-without-priority-class1
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: "700m"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-app-without-priority-class2
+spec:
+  containers:
+  - name: application-container
+    image: repocurso/nginx:latest
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: "700m"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"
