@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-tolerations
+spec:
+  selector:
+    matchLabels:
+      app: daemonset-tolerations
+  template:
+    metadata:
+      labels:
+        app: daemonset-tolerations
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: application-container
+        image: repocurso/nginx:latest

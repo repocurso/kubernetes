@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-basic
+  labels:
+    app: daemonset-basic
+spec:
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: daemonset-basic
+  template:
+    metadata:
+      labels:
+        app: daemonset-basic
+    spec:
+      containers:
+      - name: application-container
+        image: repocurso/nginx:1.24.0-alpine-slim

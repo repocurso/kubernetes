@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-nodeselector
+  labels:
+     app: daemonset-nodeselector
+spec:
+  selector:
+    matchLabels:
+      app: daemonset-nodeselector
+  template:
+    metadata:
+      labels:
+        app: daemonset-nodeselector
+    spec:
+      nodeSelector:
+        nodegroup-type: microservicios
+      containers:
+      - name: application-container
+        image: repocurso/nginx:latest
