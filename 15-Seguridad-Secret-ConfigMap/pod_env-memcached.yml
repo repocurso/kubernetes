@@ -1,0 +1,13 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: app-memcached 
+spec: 
+  containers: 
+  - name: memcached-application-container 
+    image: repocurso/memcached:1.6.8 
+    env: 
+    - name: MEMCACHED_CONNECTIONS 
+      value: "2048" 
+    - name: MEMCACHED_THREADS 
+      value: "150"
