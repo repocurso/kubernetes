@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: alpine-job-ttl
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 10
+  template:
+    metadata:
+      name: alpine-job-ttl
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: contenedor
+        image: repocurso/alpine
+        command: ["npm",  "run", "test"]

@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mensaje-job-parallelism
+spec:
+  completions: 5
+  parallelism: 2
+  backoffLimit: 4
+  template:
+    metadata:
+      name: mensaje-job-parallelism
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: contenedor
+        image: repocurso/busybox:latest
+        command: ["echo", "Curso k8s - Ejemplo Job"]

@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pausa-job-deadline
+spec:
+  backoffLimit: 0
+  parallelism: 1
+  template:
+    metadata:
+      name: pausa-job-deadline
+    spec:
+      activeDeadlineSeconds: 20
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: contenedor
+        image: repocurso/busybox:latest
+        command: ['sh', '-c', 'sleep 500000']
+      restartPolicy: Never

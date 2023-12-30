@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: calculo-job-basic
+spec:
+  backoffLimit: 4
+  template:
+    metadata:
+      name: calculo-job-basic
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: contenedor
+        image: repocurso/perl:5.34.0
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
