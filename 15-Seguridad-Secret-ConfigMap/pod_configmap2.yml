@@ -1,0 +1,15 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: pod-configmap2 
+spec: 
+  volumes: 
+  - name: configmap-volume 
+    configMap: 
+      name: data-configmap4
+  containers: 
+  - name: backend-application-container
+    image: repocurso/web-app:1.0.1 
+    volumeMounts: 
+    - name: configmap-volume 
+      mountPath: /etc/config

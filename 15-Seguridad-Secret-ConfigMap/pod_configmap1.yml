@@ -1,0 +1,11 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: pod-configmap1
+spec: 
+  containers: 
+  - name: backend-application-container
+    image: repocurso/web-app:1.0.1 
+    envFrom: 
+    - configMapRef: 
+        name: data-configmap1
