@@ -1,0 +1,45 @@
+----------------------------------------------------------------
+ Instalación de Metrics Server
+----------------------------------------------------------------
+
+$ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+-- Comprobación de Metrics Server
+
+$ kubectl get all -n kube-system -l k8s-app=metrics-server
+$ kubectl get serviceaccounts -n kube-system -l k8s-app=metrics-server
+$ kubectl get clusterroles -n kube-system -l k8s-app=metrics-server
+$ kubectl get clusterrolebindings -n kube-system -l k8s-app=metrics-server
+$ kubectl get rolebindings -n kube-system -l k8s-app=metrics-server
+$ kubectl get apiservice -n kube-system -l k8s-app=metrics-server
+
+----------------------------------------------------------------
+ Troubleshooting de la instalación
+ Readiness probe failed: HTTP probe failed with statuscode: 500
+----------------------------------------------------------------
+
+$ kubectl -n kube-system get pods -l k8s-app=metrics-server 
+$ kubectl -n kube-system describe pod metrics-server-9d8d44575-4qdz2
+$ kubectl -n kube-system logs metrics-server-9d8d44575-4qdz2
+
+$ kubectl edit deployment metrics-server -n kube-system
+
+-- Modificar agregando -> - --kubelet-insecure-tls
+        - --kubelet-use-node-status-port
+        - --kubelet-insecure-tls
+        - --metric-resolution=15s
+
+$ kubectl -n kube-system get pods -l k8s-app=metrics-server
+
+----------------------------------------------------------------
+ Kubernetes metrics-server
+----------------------------------------------------------------
+
+$ kubectl get apiservices
+$ kubectl get --raw "/apis/metrics.k8s.io/v1beta1/namespaces/kube-system/pods/metrics-server-9d8d44575-4qdz2"
+$ kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes/node2" | jq '.'
+
+$ kubectl top nodes
+$ kubectl -n kube-system top pod metrics-server-9d8d44575-4qdz2
+$ kubectl -n kube-system top pod metrics-server-9d8d44575-4qdz2 --containers
+$ kubectl -n kube-system top pods --containers

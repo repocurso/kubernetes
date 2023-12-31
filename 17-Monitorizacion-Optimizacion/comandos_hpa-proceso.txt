@@ -1,0 +1,35 @@
+----------------------------------------------------------------
+ Horizontal Pod Autoscaling
+----------------------------------------------------------------
+
+$ kubectl apply -f hpa_php-apache-01_service.yml
+$ kubectl apply -f hpa_php-apache-02_deployment.yml
+
+$ curl http://192.168.100.10:30000
+
+$ kubectl apply -f hpa_php-apache-03_hpa.yml
+$ kubectl get hpa php-apache
+$ kubectl describe hpa php-apache
+
+----------------------------------------------------------------
+ HPA - Sin actividad en el workload
+----------------------------------------------------------------
+
+-- Espera unos minutos
+
+$ kubectl get hpa php-apache
+$ kubectl describe hpa php-apache
+
+----------------------------------------------------------------
+ HPA - Con actividad en el workload
+----------------------------------------------------------------
+
+--- Terminal 1
+$ kubectl get hpa php-apache --watch
+
+--- Terminal 2
+$ watch kubectl get pods -l role=php-apache
+
+--- Terminal 3
+$ while true; do curl http://192.168.100.10:30000; done
+

@@ -1,0 +1,41 @@
+----------------------------------------------------------------
+ Vertical Pod Autoscaling
+----------------------------------------------------------------
+
+$ REPO_PWD=$(pwd)
+$ if [ ! -d ~/vpa ] ; then mkdir -p ~/vpa; fi && cd ~/vpa
+$ git clone https://github.com/kubernetes/autoscaler.git
+
+$ cd autoscaler/vertical-pod-autoscaler
+$ ./hack/vpa-up.sh
+$ kubectl get pods -n kube-system | grep vpa
+$ kubectl api-resources | grep verticalpodautoscalers
+
+----------------------------------------------------------------
+ VPA - Recomendaciones
+----------------------------------------------------------------
+
+$ cd $REPO_PWD
+
+$ kubectl apply -f deployment_basic-vpa.yml
+$ kubectl get all -l app=nginx-demo-vpa
+$ kubectl apply -f vpa_basic-autoscaler.yml
+$ kubectl get vpa nginx-deployment-vpa
+$ kubectl describe vpa nginx-deployment-vpa
+
+----------------------------------------------------------------
+ VPA - Recreación por actividad
+----------------------------------------------------------------
+
+$ kubectl apply -f deployment_complex-vpa.yml
+$ kubectl get pods -l app=ubuntu-demo-vpa
+$ kubectl describe pod ubuntu-deployment-6b74987cf-5gfsl
+
+-- Terminal2
+$ kubectl get pods -l app=ubuntu-demo-vpa --wat
+
+-- Terminal1
+$ kubectl apply -f vpa_complex-autoscaler.yml
+$ kubectl get vpa ubuntu-deployment-vpa
+$ kubectl describe pod ubuntu-deployment-8db786b5c-5v4v8
+
