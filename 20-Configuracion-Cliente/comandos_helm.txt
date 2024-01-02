@@ -1,0 +1,53 @@
+------------------------------------------------
+ Helm
+------------------------------------------------
+
+$ kubectl apply -f local-path-storage.yml
+
+$ sudo snap install helm --classic
+$ helm version
+
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+$ helm repo list
+$ helm repo update
+
+$ helm install kafka bitnami/kafka --version 23
+$ kubectl wait --namespace default --for=condition=ready pod --selector=app.kubernetes.io/component=kafka --timeout=90s
+
+$ kubectl get all
+$ kubectl get sc,pv,pvc
+
+----
+
+$ kubectl exec -it kafka-0 -- /bin/bash
+
+kafka-0:/$ kafka-topics.sh --bootstrap-server kafka-0.kafka-headless:9092 --create --topic test1 --partitions 1 --replication-factor 1
+kafka-0:/$ kafka-topics.sh --bootstrap-server kafka-0.kafka-headless:9092 --list
+kafka-0:/$ kafka-topics.sh --bootstrap-server kafka-0.kafka-headless:9092 --delete --topic test1
+kafka-0:/$ exit
+
+----
+
+$ helm list
+$ helm get values --all kafka > kafka_values.yml
+$ cat kafka_values.yml | grep -i delete
+$ sed -i 's/deleteTopicEnable: false/deleteTopicEnable: true/g' kafka_values.yml
+$ cat kafka_values.yml | grep -i delete
+
+$ kubectl get pod kafka-0 -o=yaml | grep -A 1  KAFKA_CFG_DELETE_TOPIC_ENABLE
+$ helm upgrade kafka bitnami/kafka --version 23 -f kafka_values.yml
+$ kubectl get pod kafka-0 -o=yaml | grep -A 1  KAFKA_CFG_DELETE_TOPIC_ENABLE
+
+----
+
+$ kubectl exec -it kafka-0 -- /bin/bash
+
+kafka-0:/$ kafka-topics.sh --bootstrap-server kafka-0.kafka-headless:9092 --list
+kafka-0:/$ kafka-topics.sh --bootstrap-server kafka-0.kafka-headless:9092 --delete --topic test1
+kafka-0:/$ kafka-topics.sh --bootstrap-server kafka-0.kafka-headless:9092 --list
+kafka-0:/$ exit
+
+----
+
+$ helm uninstall kafka
+$ helm list

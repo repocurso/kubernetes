@@ -1,0 +1,48 @@
+------------------------------------------------
+ kind
+------------------------------------------------
+
+$ docker --version
+
+$ mkdir -p ~/kind && cd ~/kind
+$ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
+$ chmod +x ./kind
+$ sudo cp ./kind /usr/local/bin
+
+$ kind version
+
+----
+
+$ kind create cluster --name curso1
+
+$ docker images kindest/node
+$ docker ps --filter "name=curso1"
+
+$ kind get clusters
+$ kind get nodes --name=curso1
+
+$ kubectl config get-contexts
+$ kubectl cluster-info
+
+$ kubectl get nodes
+$ kubectl run helloworld2 --image=repocurso/k8s-demo --port=3000
+$ kubectl get all
+
+$ kind delete cluster --name=curso1
+$ kind get clusters
+
+----
+
+$ cat kind_config-curso2.yml
+$ kind create cluster --config=kind_config-curso2.yml
+
+$ kind get clusters
+$ kind get nodes --name=curso2
+$ kubectl get nodes
+
+$ kubectl config get-contexts
+$ kubectl get nodes --context kubernetes-admin@kubernetes
+
+$ kind delete cluster --name=curso2
+$ kind get clusters
+

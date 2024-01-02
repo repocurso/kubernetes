@@ -1,0 +1,46 @@
+------------------------------------------------
+ minikube
+------------------------------------------------
+
+$ mkdir -p ~/download/minikube && cd ~/download/minikube 
+$ wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+$ chmod +x minikube-linux-amd64
+$ sudo cp minikube-linux-amd64 /usr/local/bin/minikube
+$ minikube version
+
+----
+
+$ minikube start
+
+$ kubectl config get-contexts
+$ kubectl cluster-info
+$ kubectl get nodes
+$ kubectl run helloworld2 --image=repocurso/k8s-demo --port=3000
+$ kubectl get all
+
+----
+
+$ kubectl config get-contexts
+$ kubectl get nodes
+$ kubectl get nodes --context kubernetes-admin@kubernetes
+
+$ minikube ssh
+$ minikube status
+$ minikube delete
+
+----
+
+$ minikube start --kubernetes-version=v1.24.17
+$ kubectl get nodes
+
+$ minikube start --container-runtime=crio
+$ kubectl get nodes -o=wide
+
+$ minikube config set kubernetes-version v1.24.17
+$ minikube config set container-runtime crio
+$ minikube config set cpus 2
+$ minikube config set memory 1800mb
+
+$ cat .minikube/config/config.json
+$ kube config view
+$ minikube start

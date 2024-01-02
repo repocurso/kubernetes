@@ -1,0 +1,60 @@
+------------------------------------------------
+ Configuración Cliente
+------------------------------------------------
+
+---- Latest -> v1.28.4
+$ mkdir –p ~/download/k8s && cd ~/download/k8s 
+
+$ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+
+$ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl.sha256
+
+$ ls –l
+
+$ echo "$(cat kubectl.sha256) kubectl" | sha256sum --check
+
+----
+
+$ mkdir $HOME/.kube
+$ scp vagrant@192.168.100.10:.kube/config .kube/config
+$ export KUBECONFIG="$HOME/.kube/config"
+$ echo $KUBECONFIG 
+
+----
+
+$ chmod +x kubectl
+$ sudo cp ./kubectl /usr/local/bin/kubectl
+$ kubectl version
+
+---- Otra Versión -> v1.23.1
+
+$ curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.1/bin/linux/amd64/kubectl
+
+$ curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.1/bin/linux/amd64/kubectl.sha256
+
+$ kubectl version
+
+----
+
+$ mkdir -p ~/config-k8s/kube
+$ cp ~/.kube/config ~/config-k8s/kube/config.kubernetes
+$ export KUBECONFIG=~/config-k8s/kube/config.kubernetes
+$ echo $KUBECONFIG
+$ kubectl get nodes
+
+------------------------------------------------
+ kubectl autocompletion
+------------------------------------------------
+
+$ type _init_completion
+
+$ echo 'source <(kubectl completion bash)' >> ~/.bashrc
+$ cat .bashrc 
+
+$ kubectl completion bash > ~/kubectl.completion
+$ sudo cp ~/kubectl.completion /etc/bash_completion.d/kubectl
+$ sudo ls /etc/bash_completion.d/kubectl
+
+$ echo 'alias k=kubectl' >> ~/.bashrc
+$ echo 'complete -o default -F __start_kubectl k' >> ~/.bashrc
+$ cat .bashrc 
