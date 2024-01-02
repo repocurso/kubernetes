@@ -1,0 +1,104 @@
+------------------------------------------------
+ Depuración de pods
+------------------------------------------------
+
+$ kubectl create namespace debug
+
+$ kubectl run app1 --image=repocurso/nginx-unprivileged -n debug
+$ kubectl get pods -n debug
+
+$ kubectl exec app1 -it -n debug -- /bin/bash
+
+nginx@app1:/$ ps fax
+nginx@app1:/$ apt install -y ps
+nginx@app1:/$ sudo apt install -y ps
+
+------------------------------------------------
+ Debug containers 
+------------------------------------------------
+
+-- Terminal1 - Debug Container
+$ kubectl debug app1 -it --image=repocurso/ubuntu --target=app1 n debug
+
+-- Terminal2
+$ kubectl describe pod app1 -n debug
+
+-- Terminal1 - Debug Container
+root@app1:/# ps fax
+root@app1:/# apt update && apt install -y net-tools tcpdump
+root@app1:/# netstat -tpln
+root@app1:/# tcpdump -i any -nn port 8080 -v
+
+-- Terminal2
+$ POD_IP=$(kubectl get pods app1 -n debug -o=wide --no-headers | awk '{print $6}'); echo $POD_IP
+$ POD_IP=$(kubectl get pods app1 -n debug º=jsonpath='{.status.podIP}') ; echo $POD_IP
+
+$ curl http://$POD_IP:8080
+
+-- Terminal1 - Debug Container
+-- Comprueba la salida
+
+-- Terminal2
+$ kubectl port-forward pod/app1 -n debug 8080:8080 & 
+
+$ curl http://localhost:8080
+
+-- Terminal1 - Debug Container
+-- Comprueba la salida
+
+-- Cancela la salida (^C)
+
+root@app1:/# exit
+
+$ kubectl attach app1 -c debugger-lk68x -it -n debug
+
+
+------------------------------------------------
+ Depuración usando una copia del Pod
+------------------------------------------------
+
+-- Terminal1 - Debug Container
+$ kubectl debug app1 –n debug -it --image=repocurso/ubuntu ­share-processes --copy-to=app1-debug
+
+root@app1-debug:/# ps fax
+root@app1-debug:/# exit
+
+$ kubectl attach nginx-debug -c debugger-p7tlp -it –n debug
+
+$ kubectl get pods -n debug
+$ kubectl describe pod app1-debug -n debug
+
+------------------------------------------------
+ Depuración de pods
+------------------------------------------------
+
+$ kubectl run app2 -n debug --image=repocurso/busybox -- false
+$ kubectl get pods -n debug
+
+$ kubectl debug app2 -n debug -it --copy-to=app2-debug ­container=app2 -- /bin/sh
+
+/ # ls
+/ # exit
+
+$ kubectl get pods -n debug
+
+------------------------------------------------
+ Depuración de nodos
+------------------------------------------------
+
+$ kubectl get nodes
+
+$ kubectl debug -n debug node/node1 -it --image=repocurso/ubuntu
+
+root@node1:/# hostname
+root@node1:/# ls /host
+root@node1:/# exit
+
+------------------------------------------------
+ Limpieza del proceso realizado
+------------------------------------------------
+
+$ kubectl get pods -n debug
+
+$ kubectl delete namespaces debug
+
