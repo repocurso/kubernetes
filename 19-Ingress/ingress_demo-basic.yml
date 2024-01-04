@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-demo-basic
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: curso.local
+    http:
+      paths:
+      - path: /v1
+        pathType: Exact
+        backend:
+          service:
+            name: hello-app-v1-svc
+            port:
+              number: 80
+      - path: /v2
+        pathType: Exact
+        backend:
+          service:
+            name: hello-app-v2-svc
+            port:
+              number: 80
