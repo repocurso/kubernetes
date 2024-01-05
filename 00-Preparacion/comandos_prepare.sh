@@ -1,4 +1,5 @@
 sudo apt install -y tree
+sudo apt install -y jq
 
 ssh-keygen -q -t rsa -f ~/.ssh/id_rsa -N "" <<< y
 ssh-copy-id 192.168.100.11 -f 
