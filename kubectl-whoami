@@ -1,7 +1,0 @@
-#!/bin/bash
-if [[ "$1" == "kubernetes" ]]
-then
-    kubectl config view --template='{{ range .contexts }}{{ if eq .name "'$(kubectl config current-context)'" }}Current user k8s: {{ printf "%s\n" .context.user }}{{ end }}{{ end }}'
-    exit 0
-fi
-echo "Current user OS: $(id --user --name)"
