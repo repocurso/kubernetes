@@ -3,7 +3,7 @@
 ----------------------------------------------------------------
 
 $ REPO_PWD=$(pwd)
-$ if [ ! -d ~/vpa ] ; then mkdir -p ~/vpa; fi && cd ~/vpa
+$ if [ ! -d ~/download/vpa ] ; then mkdir -p ~/download/vpa; fi && cd ~/download/vpa 
 $ git clone https://github.com/kubernetes/autoscaler.git
 
 $ cd autoscaler/vertical-pod-autoscaler

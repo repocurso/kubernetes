@@ -1,0 +1,2 @@
+NAME          IP           NODE
+metadata.name status.podIP spec.nodeName

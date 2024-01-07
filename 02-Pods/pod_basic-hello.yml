@@ -4,7 +4,7 @@ metadata:
   name: helloworld1
 spec:
   containers:
-  - name: k8s-demo-hellowold
+  - name: k8s-demo-helloworld
     image: repocurso/k8s-demo
     ports:
     - name: helloworld-port
