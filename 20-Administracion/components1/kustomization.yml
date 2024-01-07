@@ -1,0 +1,3 @@
+resources: 
+- web-app-pod.yml 
+- web-app-service.yml
