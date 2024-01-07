@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-patch-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-patch-demo
+  template:
+    metadata:
+      labels:
+        app: app-patch-demo
+    spec:
+      containers:
+      - name: app-demo-container1
+        image: repocurso/nginx:1.7.8
