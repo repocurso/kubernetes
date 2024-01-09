@@ -6,8 +6,8 @@ Plataforma portable y extensible de código abierto para administrar cargas de t
 
 ## kubernetes - Capítulos
 
-1. [Introducción](./01-Introducción)
-1. [Instalación de docker](./02-Instalación)
+1. [Introducción](./01-Introduccion)
+1. [Pods](./02-Pods)
 1. [Gestión de containers](./03-Containers)
 1. [Gestión de imágenes](./04-Images)
 1. [Registry (Repositorios)](./05-Repository)
