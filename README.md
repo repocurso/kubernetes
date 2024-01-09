@@ -26,7 +26,7 @@ Plataforma portable y extensible de código abierto para administrar cargas de t
 1. [Monitorización y Optimización](./18-Monitorizacion-Optimizacion)
 1. [Servicio de Ingress](./19-Ingress)
 1. [Operaciones de Administración](./20-Administracion)
-1. Configuracion de los Clientes](./21-Configuracion-Cliente)
+1. [Configuracion de los Clientes](./21-Configuracion-Cliente)
 
 > [!NOTE]
 > Para descargar el repositorio, utiliza los siguientes comandos:
