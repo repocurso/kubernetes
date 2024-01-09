@@ -1,6 +1,6 @@
 # kubernetes
 
-Plataforma portable y extensible de código abierto para administrar cargas de trabajo y servicios. Facilita la automatización y la configuración declarativa. Tiene un ecosistema amplio y en rápido crecimiento. 
+### Plataforma portable y extensible de código abierto para administrar cargas de trabajo y servicios. Facilita la automatización y la configuración declarativa. Tiene un ecosistema amplio y en rápido crecimiento. 
 
 <img src="https://github.com/repocurso/kubernetes/assets/152635234/0de81776-7cd1-4950-9041-e01c5430f06e" alt="kubernetes-logo" width="200">
 
@@ -35,4 +35,4 @@ mkdir -p ~/repocurso/ && cd ~/repocurso/
 git clone https://github.com/repocurso/kubernetes.git
 ```
 
-//![ponente](https://github.com/repocurso/kubernetes/assets/152635234/d2edf5c6-ac1b-4df2-86db-f187f9363518)
+<!-- ![ponente](https://github.com/repocurso/kubernetes/assets/152635234/d2edf5c6-ac1b-4df2-86db-f187f9363518) -->
