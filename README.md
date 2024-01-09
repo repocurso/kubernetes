@@ -35,4 +35,4 @@ mkdir -p ~/repocurso/ && cd ~/repocurso/
 git clone https://github.com/repocurso/kubernetes.git
 ```
 
-![docker-logo](https://github.com/repocurso/ejemplo/assets/152635234/839ae1f7-ced9-48d2-a85d-a6db72631511)
+![ponente](https://github.com/repocurso/kubernetes/assets/152635234/d2edf5c6-ac1b-4df2-86db-f187f9363518)
