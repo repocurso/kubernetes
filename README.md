@@ -2,7 +2,7 @@
 
 Plataforma portable y extensible de código abierto para administrar cargas de trabajo y servicios. Facilita la automatización y la configuración declarativa. Tiene un ecosistema amplio y en rápido crecimiento. 
 
-<img src="https://github.com/repocurso/ejemplo/assets/152635234/839ae1f7-ced9-48d2-a85d-a6db72631511" alt="docker-log" width="200">
+<img src="https://github.com/repocurso/kubernetes/assets/152635234/0de81776-7cd1-4950-9041-e01c5430f06e">
 
 ## kubernetes - Capítulos
 
