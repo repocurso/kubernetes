@@ -35,4 +35,4 @@ mkdir -p ~/repocurso/ && cd ~/repocurso/
 git clone https://github.com/repocurso/kubernetes.git
 ```
 
-![ponente](https://github.com/repocurso/kubernetes/assets/152635234/d2edf5c6-ac1b-4df2-86db-f187f9363518)
+//![ponente](https://github.com/repocurso/kubernetes/assets/152635234/d2edf5c6-ac1b-4df2-86db-f187f9363518)
