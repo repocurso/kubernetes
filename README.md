@@ -23,7 +23,7 @@ Plataforma portable y extensible de código abierto para administrar cargas de t
 > [!NOTE]
 > Para descargar el repositorio, utiliza los siguientes comandos:
 ```
-mkdir -p ~/repocurso/kubernetes && cd ~/repocurso/kubernetes
+mkdir -p ~/repocurso/ && cd ~/repocurso/
 git clone https://github.com/repocurso/kubernetes.git
 ```
 
