@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt install -y tree
 sudo apt install -y jq
 sudo apt install -y unzip
