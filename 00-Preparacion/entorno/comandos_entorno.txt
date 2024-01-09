@@ -1,6 +1,14 @@
 ---------------------------------------------
+ Preparación del entorno
+---------------------------------------------
+
+$ wget https://raw.githubusercontent.com/repocurso/kubernetes/main/00-Preparacion/entorno/comandos_entorno.txt
+
+---------------------------------------------
  Descomprimir archivo ZIP
 ---------------------------------------------
+
+$ wget https://raw.githubusercontent.com/repocurso/kubernetes/main/00-Preparacion/entorno/entorno.zip
 
 $ unzip entorno.zip -d $HOME
 
