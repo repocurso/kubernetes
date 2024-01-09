@@ -36,3 +36,4 @@ git clone https://github.com/repocurso/kubernetes.git
 ```
 
 <!-- ![ponente](https://github.com/repocurso/kubernetes/assets/152635234/d2edf5c6-ac1b-4df2-86db-f187f9363518) -->
+![kubernetes-history](https://github.com/repocurso/kubernetes/assets/152635234/14071b99-461c-4e58-8026-4a2a3f80eab1)
