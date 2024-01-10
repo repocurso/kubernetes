@@ -5,6 +5,7 @@
 sudo apt install -y tree
 sudo apt install -y jq
 sudo apt install -y unzip
+sudo apt install -y dos2unix
 
 # Creación y copia de la clave SSH
 
