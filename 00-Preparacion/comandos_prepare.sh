@@ -2,7 +2,7 @@
 
 # Instalación de packages
 
-sudo apt install -y net-tools tree jq unzip dos2unix
+sudo apt install -y net-tools ipset tree jq unzip dos2unix
 
 # Creación y copia de la clave SSH
 
