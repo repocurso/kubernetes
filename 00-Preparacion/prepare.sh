@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Instalación de packages
-sudo apt install -y net-tools tree jq unzip dos2unix sshpass
+sudo apt install -y net-tools tree jq unzip dos2unix sshpass debootstrap
 
 # Creación y copia de la clave SSH
 ssh-keygen -q -t rsa -f ~/.ssh/id_rsa -N "" <<< y > /dev/null
