@@ -1,0 +1,85 @@
+---------------------------------------------
+ skopeo
+---------------------------------------------
+
+$ skopeo inspect docker://repocurso/busybox
+
+$ mkdir ~/images
+$ sudo skopeo --insecure-policy copy docker://repocurso/busybox  oci:/$HOME/images/busybox
+$ tree  ~/images
+
+---------------------------------------------
+ podman
+---------------------------------------------
+
+$ podman run --rm oci://$HOME/images/busybox head -n3 /etc/passwd
+$ podman images
+
+# --- Crear un Pod temporal con la imagen de busybox
+# --- Crear un Pod vacío (sin containers)
+
+$ podman pod create --name demo-pod
+$ podman pod list
+$ podman ps -a --pod --filter pod=demo-pod
+$ podman image list
+
+# --- Agregar un container al pod
+
+$ podman run -dt --pod demo-pod repocurso/alpine
+$ podman pod list --filter name=demo-pod
+$ podman ps -a --pod --filter pod=demo-pod 
+$ podman image list
+
+# --- Generar archivo de manifest YAML para kubernetes
+
+$ podman generate kube demo-pod > demo-pod.yml
+$ cat demo-pod.yml
+$ kubectl apply -f demo-pod.yml
+$ kubectl get pods -l app=demo-pod
+
+# --- Parar y Eliminar un pod
+
+$ podman pod stop demo-pod
+$ podman pod list --filter name=demo-pod
+$ podman pod rm demo-pod
+$ podman pod list --filter name=demo-pod
+
+# --- Crear un pod mediante un archivo YAML
+
+$ podman play kube demo-pod.yml
+$ podman pod list --filter name=demo-pod
+$ podman ps -a --pod --filter pod=demo-pod
+
+---------------------------------------------
+ buildah 
+---------------------------------------------
+
+# --- Crear un container mediante una imagen
+
+$ buildah from repocurso/ubuntu-slim:0.1
+$ buildah containers
+$ buildah images
+$ buildah run --isolation=chroot ubuntu-slim-working-container uname -a && ls /
+
+# --- Crear un container desde cero
+
+$ sudo su -
+
+# varContainer=$(buildah from scratch) && echo $varContainer
+# buildah containers
+# ls /var/lib/containers/storage/overlay/
+
+# varStorage=$(buildah mount $varContainer) && echo $varStorage
+# debootstrap --variant=minbase focal $varStorage
+# buildah umount $varContainer
+
+# buildah run $varContainer cat /etc/os-release
+# buildah commit $varContainer ubuntu-basic:1.0
+# buildah images
+
+# --- Upload de la imagen al repositorio
+
+# buildah login docker.io
+# buildah push f93621e6e432 docker://repocurso/ubuntu-basic:1.0
+# buildah logout
+
