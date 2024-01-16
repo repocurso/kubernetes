@@ -81,5 +81,9 @@ $ sudo su -
 
 # buildah login docker.io
 # buildah push f93621e6e432 docker://repocurso/ubuntu-basic:1.0
+
+# varImage=$(buildah images | grep "localhost/ubuntu-basic" | awk '{print $3}')
+# buildah push $varImage docker://repocurso/ubuntu-basic:1.0
+
 # buildah logout
 
