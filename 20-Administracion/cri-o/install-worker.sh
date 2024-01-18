@@ -4,9 +4,17 @@
 
 set -euxo pipefail
 
-export CONFIG_PATH="/vagrant/curso/cri-o/configs"
+CONFIG_PATH="$HOME/download/crio-configs"
 
-sudo /bin/bash ${CONFIG_PATH}/join.sh -v
+if [ -d $CONFIG_PATH ]; then
+  rm -f $CONFIG_PATH
+else
+  mkdir -p $CONFIG_PATH
+fi
+
+scp master:$CONFIG_PATH $CONFIG_PATH
+
+sudo /bin/bash ${CONFIG_PATH}/join-command.sh -v
 
 #sudo -i -u vagrant bash << EOF
 #whoami
