@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# Instlación y Configuración para todos los nodos (Control Plane y workers)
+# =============================================================================
+# Instalación y Configuración para todos los nodos (Control Plane y workers)
+# =============================================================================
 
 set -euxo pipefail
 
-# iDeclaración de Variables
+# Declaración de Variables
 KUBERNETES_VERSION="1.25.5-00"
 KUBERNETES_VERSION="1.28.2-00"
 KUBERNETES_VERSION="$1"

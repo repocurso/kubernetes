@@ -1,8 +1,17 @@
 #!/bin/bash
-#
-# Setup for Node servers
+
+# ==================================================
+# Configurar nodos workers
+# ==================================================
 
 set -euxo pipefail
+
+MASTER_IP="192.168.100.10"
+NODENAME=$(hostname -s)
+
+# --------------------------------------------------
+# Unir el nodo al clúster de Kuberenetes
+# --------------------------------------------------
 
 CONFIG_PATH="$HOME/download/crio-configs"
 
@@ -11,21 +20,16 @@ if [ -d $CONFIG_PATH ]; then
 fi
 mkdir -p $CONFIG_PATH
 
-scp master:$CONFIG_PATH/* $CONFIG_PATH
+scp $MASTER_IP:$CONFIG_PATH/* $CONFIG_PATH
 
 sudo /bin/bash ${CONFIG_PATH}/join-command.sh -v
 
-#sudo -i -u vagrant bash << EOF
-#whoami
-#mkdir -p ${HOME}/.kube
-#sudo cp -i ${CONFIG_PATH}/config ${HOME}/.kube/
-#sudo chown $(id -u):$(id -g) ${HOME}/.kube/config
-#export NODENAME=$(hostname -s)
-#kubectl label node ${NODENAME} node-role.kubernetes.io/role=worker
-#EOF
+# --------------------------------------------------
+# Otras operaciones
+# --------------------------------------------------
 
 mkdir -p ${HOME}/.kube
 sudo cp -i ${CONFIG_PATH}/config ${HOME}/.kube/ <<<y
 sudo chown $(id -u):$(id -g) ${HOME}/.kube/config
-export NODENAME=$(hostname -s)
 kubectl label node ${NODENAME} node-role.kubernetes.io/worker=worker
+
