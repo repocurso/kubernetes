@@ -34,12 +34,12 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 CONFIG_PATH="$HOME/download/crio-configs"
 
 if [ -d $CONFIG_PATH ]; then
-  rm -f $CONFIG_PATH
-else
-  mkdir -p $CONFIG_PATH
+  rm -rf $CONFIG_PATH
 fi
+mkdir -p $CONFIG_PATH
 
 sudo cp -i /etc/kubernetes/admin.conf $CONFIG_PATH/config
+sudo chown $(id -u):$(id -g) $CONFIG_PATH/config
 touch $CONFIG_PATH/join-command.sh
 chmod +x $CONFIG_PATH/join-command.sh
 

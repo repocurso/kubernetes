@@ -7,12 +7,11 @@ set -euxo pipefail
 CONFIG_PATH="$HOME/download/crio-configs"
 
 if [ -d $CONFIG_PATH ]; then
-  rm -f $CONFIG_PATH
-else
-  mkdir -p $CONFIG_PATH
+  rm -rf $CONFIG_PATH
 fi
+mkdir -p $CONFIG_PATH
 
-scp master:$CONFIG_PATH $CONFIG_PATH
+scp master:$CONFIG_PATH/* $CONFIG_PATH
 
 sudo /bin/bash ${CONFIG_PATH}/join-command.sh -v
 

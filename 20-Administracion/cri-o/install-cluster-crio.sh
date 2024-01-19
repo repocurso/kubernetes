@@ -6,6 +6,7 @@ export MASTER_IP="192.168.100.10"
 export WORKER_IP="192.168.100.11 192.168.100.12"
 export KUBERNETES_VERSION="1.25.5-00"
 export KUBERNETES_VERSION="1.28.2-00"
+#export KUBERNETES_VERSION="1.27.2-00"
 export KUBEADM_TOKEN="vgue3w.ur6f4viisj3nazk1"
 
 # Instalar software kubernetes

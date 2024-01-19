@@ -50,7 +50,7 @@ echo "** ** Preparar el sistema operativo de los nodos"
 # Agregar el repositorio de CRI-O
 # --------------------------------------------------
 export OS="xUbuntu_20.04"
-export CRIO_VERSION="1.28"
+export CRIO_VERSION="1.26"
 
 cat <<EOT | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
