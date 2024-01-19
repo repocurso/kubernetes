@@ -47,11 +47,11 @@ sudo chown $(id -u):$(id -g) $CONFIG_PATH/config
 touch $CONFIG_PATH/join-command.sh
 chmod +x $CONFIG_PATH/join-command.sh
 
-echo "sudo "$(sudo kubeadm token create --print-join-command)"--cri-socket unix:///var/run/crio/crio.sock" | tee $CONFIG_PATH/join-command.sh
+#echo "sudo "$(sudo kubeadm token create --print-join-command)"--cri-socket unix:///var/run/crio/crio.sock" | tee $CONFIG_PATH/join-command.sh
 
-#export KUBEADM_TOKEN=$(kubeadm token list | tail -n1 | cut -d" " -f1)
-#export KUBEADM_TOKEN_SHA=sha256:$(openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -pubkey | openssl rsa -pubin -outform DER 2>/dev/null | sha256sum | cut -d' ' -f1)
-#echo "kubeadm join ${MASTER_IP}:6443 --token ${KUBEADM_TOKEN} --discovery-token-ca-cert-hash ${KUBEADM_TOKEN_SHA} --cri-socket unix:///var/run/crio/crio.sock" > $CONFIG_PATH/join-command.sh
+export KUBEADM_TOKEN=$(kubeadm token list | tail -n1 | cut -d" " -f1)
+export KUBEADM_TOKEN_SHA=sha256:$(openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -pubkey | openssl rsa -pubin -outform DER 2>/dev/null | sha256sum | cut -d' ' -f1)
+echo "kubeadm join ${MASTER_IP}:6443 --token ${KUBEADM_TOKEN} --discovery-token-ca-cert-hash ${KUBEADM_TOKEN_SHA} --cri-socket unix:///var/run/crio/crio.sock" > $CONFIG_PATH/join-command.sh
 
 # --------------------------------------------------
 # Instalar complementos
