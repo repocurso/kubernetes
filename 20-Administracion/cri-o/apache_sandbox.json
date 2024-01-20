@@ -1,0 +1,12 @@
+{
+    "metadata": {
+        "name": "apache-sandbox",
+        "namespace": "default",
+        "attempt": 1,
+        "uid": "hdishd83djaidwnduwk28bcsb"
+    },
+    "linux": {
+    },
+    "log_directory": "/tmp"
+}
+

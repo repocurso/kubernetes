@@ -42,6 +42,8 @@ echo "** Preparar el sistema operativo de los nodos"
 # --------------------------------------------------
 # Actualizar el sistema e instalar las dependencias
 # --------------------------------------------------
+
+#sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg
 sudo apt-get -qq update
 #sudo apt-get install -y apt-transport-https ca-certificates curl
 sudo apt -qq install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
@@ -51,6 +53,7 @@ echo "** ** Preparar el sistema operativo de los nodos"
 # --------------------------------------------------
 # Agregar el repositorio de CRI-O
 # --------------------------------------------------
+
 export OS="xUbuntu_20.04"
 export CRIO_VERSION="$2"
 
@@ -69,6 +72,7 @@ echo "** Agregar el repositorio de CRI-O"
 # --------------------------------------------------
 # Instalar CRI-O Runtime
 # --------------------------------------------------
+
 sudo apt-get -qq update 
 sudo apt-get -qq install -y cri-o cri-o-runc
 

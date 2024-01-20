@@ -4,7 +4,7 @@
 
 export MASTER_IP="192.168.100.10"
 export WORKER_IP="192.168.100.11 192.168.100.12"
-export KUBERNETES_VERSION="1.28.2-00"
+export KUBERNETES_VERSION="1.27.2-00"
 export CRIO_VERSION="1.26"
 
 # Instalar software kubernetes

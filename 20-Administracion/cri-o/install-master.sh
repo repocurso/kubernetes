@@ -23,8 +23,8 @@ echo "Descargar las imágenes de Control Plane"
 
 sudo kubeadm init --apiserver-advertise-address=$MASTER_IP --apiserver-cert-extra-sans=$MASTER_IP --pod-network-cidr=$POD_CIDR --node-name "$NODENAME" --ignore-preflight-errors Swap --cri-socket unix:///var/run/crio/crio.sock
 
-export KUBEADM_TOKEN=$(kubeadm token list | tail -n1 | cut -d" " -f1)
-export KUBEADM_TOKEN_SHA=sha256:$(openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -pubkey | openssl rsa -pubin -outform DER 2>/dev/null | sha256sum | cut -d' ' -f1)
+#export KUBEADM_TOKEN=$(kubeadm token list | tail -n1 | cut -d" " -f1)
+#export KUBEADM_TOKEN_SHA=sha256:$(openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -pubkey | openssl rsa -pubin -outform DER 2>/dev/null | sha256sum | cut -d' ' -f1)
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config <<<y
@@ -90,9 +90,8 @@ subjects:
   name: admin-user
   namespace: kubernetes-dashboard
 EOF
-
-#kubectl -n kubernetes-dashboard get secret "$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}")" -o go-template="{{.data.token | base64decode}}" >> /vagrant/configs/token
 COMMENT
+#kubectl -n kubernetes-dashboard get secret "$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}")" -o go-template="{{.data.token | base64decode}}" >> /vagrant/configs/token
 
 # --------------------------------------------------
 # Otras operaciones
