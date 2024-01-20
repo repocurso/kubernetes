@@ -12,10 +12,11 @@ $ tree  ~/images
  podman
 ---------------------------------------------
 
+# --- Crear un Pod temporal con la imagen de busybox
+
 $ podman run --rm oci://$HOME/images/busybox head -n3 /etc/passwd
 $ podman images
 
-# --- Crear un Pod temporal con la imagen de busybox
 # --- Crear un Pod vacío (sin containers)
 
 $ podman pod create --name demo-pod
@@ -59,7 +60,7 @@ $ podman ps -a --pod --filter pod=demo-pod
 $ buildah from repocurso/ubuntu-slim:0.1
 $ buildah containers
 $ buildah images
-$ buildah run --isolation=chroot ubuntu-slim-working-container uname -a && ls /
+$ buildah run --isolation=chroot ubuntu-slim-working-container -- sh -c 'uname -a && ls /'
 
 # --- Crear un container desde cero
 
@@ -82,7 +83,7 @@ $ sudo su -
 # buildah login docker.io
 # buildah push f93621e6e432 docker://repocurso/ubuntu-basic:1.0
 
-# varImage=$(buildah images | grep "localhost/ubuntu-basic" | awk '{print $3}')
+# varImage=$(buildah images | grep "localhost/ubuntu-basic" | awk '{print $3}') && echo $varImage
 # buildah push $varImage docker://repocurso/ubuntu-basic:1.0
 
 # buildah logout

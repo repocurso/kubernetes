@@ -13,6 +13,7 @@ POD_CIDR="192.168.100.0/16"
 # --------------------------------------------------
 # Descargar las imágenes de Control Plane
 # --------------------------------------------------
+
 sudo kubeadm config images pull --cri-socket unix:///var/run/crio/crio.sock
 
 echo "Descargar las imágenes de Control Plane"
