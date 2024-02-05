@@ -1,0 +1,12 @@
+configMapGenerator:
+- name: config-map
+  files:
+  - config/database1.properties
+secretGenerator:
+- name: config-secret
+  files:
+  - config/database2.properties
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+- web-app-pod.yml

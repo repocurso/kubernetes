@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ "$1" == "pods" ]]
+then
+    echo "Pods Resource: $(kubectl get pods --no-headers | wc -l)"
+    exit 0
+fi
+echo "All Resources: $(kubectl get all --no-headers | wc -l)"
