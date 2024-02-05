@@ -1,0 +1,1 @@
+kubeadm join 65.109.2.44:6443 --token jvfmn5.hi7k56oy6m0taazx --discovery-token-ca-cert-hash sha256:0a87f3f8b854a36575f1af8d546b2cd57f81592b1cd866aa9dba893a0e3dd4a2 --cri-socket unix:///var/run/crio/crio.sock
